@@ -1,5 +1,9 @@
 const fetch = require('node-fetch');
 
+// ⚠️ هام: هذه المفاتيح حساسة، لا تشارك المستودع بشكل علني. يمكنك تغييرها لاحقاً.
+const TELEGRAM_BOT_TOKEN = '8710514306:AAGuB0YEbpId-tBRJRlqbLw5_lP7fMCWlic';
+const TELEGRAM_CHAT_IDS = ['8357998608', '5059002505'];  // يمكن إضافة المزيد
+
 exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
@@ -7,15 +11,8 @@ exports.handler = async (event) => {
 
     try {
         const data = JSON.parse(event.body);
-        const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-        const CHAT_IDS = [process.env.TELEGRAM_CHAT_ID_1, process.env.TELEGRAM_CHAT_ID_2].filter(id => id);
 
-        if (!BOT_TOKEN || CHAT_IDS.length === 0) {
-            console.error('Missing env vars');
-            return { statusCode: 500, body: JSON.stringify({ success: false, error: 'Config missing' }) };
-        }
-
-        // رسالة نصية غنية
+        // بناء الرسالة النصية
         let message = `📄 *طلب توظيف جديد - USE*\n`;
         message += `🆔 رقم الطلب: ${data.applicationId}\n`;
         message += `👤 الاسم: ${data.fullName}\n`;
@@ -33,18 +30,20 @@ exports.handler = async (event) => {
         message += `📎 السيرة الذاتية: ${data.cvFileName || 'لم يرفق'}\n`;
         message += `📜 الشهادات: ${data.certFileName || 'لم يرفق'}\n`;
 
+        // دوال الإرسال
         const sendText = async (chatId) => {
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-            return fetch(url, {
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'Markdown' })
             });
+            return response;
         };
 
         const sendDocument = async (chatId, base64Data, filename) => {
             if (!base64Data) return;
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`;
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument`;
             const boundary = '----WebKitFormBoundary';
             const body = `--${boundary}\r\nContent-Disposition: form-data; name="chat_id"\r\n\r\n${chatId}\r\n--${boundary}\r\nContent-Disposition: form-data; name="document"; filename="${filename}"\r\nContent-Type: application/pdf\r\n\r\n${Buffer.from(base64Data, 'base64').toString('binary')}\r\n--${boundary}--`;
             return fetch(url, {
@@ -54,7 +53,8 @@ exports.handler = async (event) => {
             });
         };
 
-        for (const chatId of CHAT_IDS) {
+        // إرسال لكل المشرفين
+        for (const chatId of TELEGRAM_CHAT_IDS) {
             await sendText(chatId);
             if (data.cvBase64) await sendDocument(chatId, data.cvBase64, data.cvFileName);
             if (data.certBase64) await sendDocument(chatId, data.certBase64, data.certFileName);
@@ -62,10 +62,10 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ success: true, message: 'تم الإرسال' })
+            body: JSON.stringify({ success: true, message: 'تم إرسال الطلب بنجاح إلى إدارة الشركة' })
         };
     } catch (err) {
-        console.error(err);
+        console.error('Error in function:', err);
         return {
             statusCode: 500,
             body: JSON.stringify({ success: false, error: err.message })
