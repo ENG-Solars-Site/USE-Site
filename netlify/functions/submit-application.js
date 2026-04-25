@@ -1,8 +1,8 @@
 const fetch = require('node-fetch');
 
-// ⚠️ هام: هذه المفاتيح حساسة، لا تشارك المستودع بشكل علني. يمكنك تغييرها لاحقاً.
+// ⚠️ هام: هذه المفاتيح حساسة. تأكد من جعل المستودع خاصاً (Private) على GitHub.
 const TELEGRAM_BOT_TOKEN = '8710514306:AAGuB0YEbpId-tBRJRlqbLw5_lP7fMCWlic';
-const TELEGRAM_CHAT_IDS = ['8357998608', '5059002505'];  // يمكن إضافة المزيد
+const TELEGRAM_CHAT_IDS = ['8357998608', '5059002505'];
 
 exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
@@ -12,7 +12,6 @@ exports.handler = async (event) => {
     try {
         const data = JSON.parse(event.body);
 
-        // بناء الرسالة النصية
         let message = `📄 *طلب توظيف جديد - USE*\n`;
         message += `🆔 رقم الطلب: ${data.applicationId}\n`;
         message += `👤 الاسم: ${data.fullName}\n`;
@@ -30,15 +29,13 @@ exports.handler = async (event) => {
         message += `📎 السيرة الذاتية: ${data.cvFileName || 'لم يرفق'}\n`;
         message += `📜 الشهادات: ${data.certFileName || 'لم يرفق'}\n`;
 
-        // دوال الإرسال
         const sendText = async (chatId) => {
             const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            const response = await fetch(url, {
+            return fetch(url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: 'Markdown' })
             });
-            return response;
         };
 
         const sendDocument = async (chatId, base64Data, filename) => {
@@ -53,7 +50,6 @@ exports.handler = async (event) => {
             });
         };
 
-        // إرسال لكل المشرفين
         for (const chatId of TELEGRAM_CHAT_IDS) {
             await sendText(chatId);
             if (data.cvBase64) await sendDocument(chatId, data.cvBase64, data.cvFileName);
@@ -62,10 +58,10 @@ exports.handler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({ success: true, message: 'تم إرسال الطلب بنجاح إلى إدارة الشركة' })
+            body: JSON.stringify({ success: true, message: 'تم إرسال الطلب بنجاح' })
         };
     } catch (err) {
-        console.error('Error in function:', err);
+        console.error('Error:', err);
         return {
             statusCode: 500,
             body: JSON.stringify({ success: false, error: err.message })
