@@ -2,38 +2,45 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>United Smart Energy | USE - حلول الطاقة الذكية في العراق</title>
     <meta name="description" content="United Smart Energy: حلول طاقة متجددة، أنظمة شمسية، كفاءة طاقة للمصانع والمنازل.">
-    <!-- Fonts & Icons -->
+    <!-- Google Fonts + Font Awesome 6 -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- AOS Library for scroll animations -->
+    <!-- AOS Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
+        /* ---------- RESET & GLOBAL ---------- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
         body {
             font-family: 'Cairo', sans-serif;
             background: #fefefe;
             color: #1e2a32;
             scroll-behavior: smooth;
-            overflow-x: hidden;
         }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 10px; }
 
+        /* ---------- CONTAINER ---------- */
         .container {
             max-width: 1300px;
             margin: 0 auto;
             padding: 0 24px;
+            width: 100%;
         }
 
-        /* Navbar */
+        /* ---------- NAVBAR ---------- */
         .navbar {
             background: rgba(10, 25, 20, 0.95);
             backdrop-filter: blur(12px);
@@ -41,6 +48,7 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
         }
         .nav-container {
             display: flex;
@@ -65,7 +73,6 @@
             font-size: 1.7rem;
             font-weight: 800;
             color: #fbbf24;
-            letter-spacing: -0.5px;
         }
         .logo-text p {
             font-size: 0.75rem;
@@ -84,24 +91,35 @@
             transition: 0.3s;
             font-size: 1rem;
         }
-        .nav-links a:hover { color: #fbbf24; transform: translateY(-2px); display: inline-block; }
+        .nav-links a:hover { color: #fbbf24; transform: translateY(-2px); }
         .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
         @media (max-width: 900px) {
-            .nav-links { display: none; width: 100%; flex-direction: column; text-align: center; padding: 1rem 0; gap: 15px; background: #0a1914; border-radius: 20px; margin-top: 10px; }
+            .nav-links {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem 0;
+                gap: 15px;
+                background: #0a1914;
+                border-radius: 20px;
+                margin-top: 10px;
+            }
             .nav-links.active { display: flex; }
             .menu-toggle { display: block; }
         }
 
-        /* Hero Section with old icon as background overlay (keeping both) */
+        /* ---------- HERO SECTION ---------- */
         .hero {
             position: relative;
             background: linear-gradient(135deg, rgba(0,0,0,0.75), rgba(0,0,0,0.6)), url('https://raw.githubusercontent.com/ENG-Solars-Site/USE-Site/refs/heads/main/icon2.jpg');
             background-size: cover;
             background-position: center 30%;
-            background-attachment: fixed;
+            background-attachment: scroll; /* تجنب مشاكل الـ fixed */
             padding: 5rem 0;
             color: white;
             text-align: center;
+            width: 100%;
         }
         .hero-overlay {
             background: rgba(0,0,0,0.3);
@@ -156,7 +174,7 @@
             transform: scale(1.02);
         }
 
-        /* Section titles */
+        /* ---------- SECTION TITLES ---------- */
         .section-title {
             font-size: 2.2rem;
             font-weight: 800;
@@ -176,7 +194,7 @@
             border-radius: 4px;
         }
 
-        /* Services & Projects */
+        /* ---------- CARDS + GRIDS ---------- */
         .services-grid, .projects-grid, .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -190,6 +208,7 @@
             box-shadow: 0 15px 30px rgba(0,0,0,0.05);
             transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             border: 1px solid #eef2f6;
+            overflow: hidden;
         }
         .card:hover {
             transform: translateY(-8px) scale(1.01);
@@ -202,13 +221,11 @@
             transition: transform 0.3s;
         }
         .card:hover i { transform: scale(1.1) rotate(2deg); }
-        .card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .stat-number { font-size: 2.5rem; font-weight: 800; color: #f59e0b; line-height: 1.2; }
-
-        /* Achievements */
-        .achievement-item {
-            text-align: center;
-            padding: 1rem;
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #f59e0b;
+            line-height: 1.2;
         }
         .counter {
             font-size: 2.8rem;
@@ -216,7 +233,7 @@
             color: #f59e0b;
         }
 
-        /* Form */
+        /* ---------- FORM ---------- */
         .form-card {
             background: white;
             border-radius: 36px;
@@ -225,7 +242,12 @@
             margin: 2rem 0;
         }
         .form-group { margin-bottom: 1.3rem; }
-        label { font-weight: 700; display: block; margin-bottom: 8px; color: #1f3b2c; }
+        label {
+            font-weight: 700;
+            display: block;
+            margin-bottom: 8px;
+            color: #1f3b2c;
+        }
         input, select, textarea {
             width: 100%;
             padding: 12px 18px;
@@ -246,7 +268,6 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        /* Dynamic courses - responsive */
         .dynamic-course {
             background: #f8fafc;
             padding: 1rem;
@@ -266,13 +287,8 @@
                 flex-direction: column;
                 align-items: stretch;
             }
-            .dynamic-course input {
-                width: 100%;
-            }
-            .dynamic-course button {
-                width: fit-content;
-                align-self: flex-start;
-            }
+            .dynamic-course input { width: 100%; }
+            .dynamic-course button { width: fit-content; align-self: flex-start; }
         }
         .add-course-btn {
             background: #e2e8f0;
@@ -285,6 +301,8 @@
             transition: 0.2s;
         }
         .add-course-btn:hover { background: #cbd5e1; transform: scale(0.98); }
+
+        /* ---------- CONTACT & FOOTER ---------- */
         .contact-info {
             background: #f1f5f9;
             border-radius: 32px;
@@ -296,6 +314,7 @@
             text-align: center;
             padding: 2rem;
             margin-top: 3rem;
+            width: 100%;
         }
         .success-msg {
             background: #e6f7ec;
@@ -306,10 +325,8 @@
             font-size: 1rem;
             line-height: 1.6;
         }
-        /* Animated elements */
-        [data-aos] {
-            transition-timing-function: ease-out;
-        }
+
+        /* ---------- RESPONSIVE ---------- */
         @media (max-width: 768px) {
             .hero h2 { font-size: 2rem; }
             .container { padding: 0 16px; }
@@ -322,7 +339,6 @@
 <div class="navbar">
     <div class="container nav-container">
         <div class="logo-area">
-            <!-- استخدام الأيقونة الأولى كشعار -->
             <img src="https://raw.githubusercontent.com/ENG-Solars-Site/USE-Site/refs/heads/main/icon.jpg" alt="USE Logo" class="logo-img">
             <div class="logo-text">
                 <h1>United Smart Energy</h1>
@@ -342,7 +358,7 @@
     </div>
 </div>
 
-<!-- Hero section with strong background -->
+<!-- Hero section -->
 <section id="home" class="hero">
     <div class="container hero-overlay" data-aos="fade-up" data-aos-duration="1000">
         <h2>حلول الطاقة الذكية لمستقبل مستدام</h2>
@@ -354,7 +370,7 @@
     </div>
 </section>
 
-<!-- Services section -->
+<!-- Services -->
 <section id="services" class="container" style="margin-top: 4rem;">
     <h2 class="section-title" data-aos="fade-right">خدماتنا الاحترافية</h2>
     <div class="services-grid">
@@ -365,7 +381,7 @@
     </div>
 </section>
 
-<!-- Achievements Section with counter -->
+<!-- Achievements with counters -->
 <section id="achievements" class="container" style="margin-top: 3rem;">
     <h2 class="section-title" data-aos="fade-right">إنجازاتنا</h2>
     <div class="achievements-grid">
@@ -392,7 +408,7 @@
     </div>
 </section>
 
-<!-- Projects with numbers -->
+<!-- Projects -->
 <section id="projects" class="container" style="margin-top: 2rem;">
     <h2 class="section-title" data-aos="fade-right">مشاريعنا البارزة</h2>
     <div class="projects-grid">
@@ -402,11 +418,11 @@
     </div>
 </section>
 
-<!-- Careers Form -->
+<!-- Career Form -->
 <section id="careers" class="container" style="margin-top: 2rem;">
     <h2 class="section-title" data-aos="fade-right">نموذج التقديم على الوظيفة</h2>
     <div class="form-card" data-aos="fade-up">
-        <form id="jobApplicationForm" enctype="multipart/form-data">
+        <form id="jobApplicationForm">
             <h3><i class="fas fa-user-circle"></i> المعلومات الشخصية</h3>
             <div class="form-group"><label>الاسم الكامل *</label><input type="text" name="fullName" required></div>
             <div class="form-group"><label>تاريخ الميلاد (مثال: 1990-05-15)</label><input type="date" name="dob" required></div>
@@ -465,6 +481,7 @@
     </div>
 </section>
 
+<!-- Contact -->
 <section id="contact" class="container" style="margin: 2rem auto;">
     <h2 class="section-title" data-aos="fade-right">تواصل معنا</h2>
     <div class="contact-info" data-aos="flip-up">
@@ -480,13 +497,11 @@
     <p>© 2025 United Smart Energy - الشركات المتحدة للطاقة المتجددة. الابتكار | الجودة | الاستدامة | الالتزام</p>
 </footer>
 
-<!-- Scripts -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    // Initialize AOS
     AOS.init({ duration: 800, once: false, mirror: true });
 
-    // Mobile menu toggle
+    // Mobile menu
     const menuBtn = document.getElementById('mobileMenuBtn');
     const navLinksMenu = document.getElementById('navLinks');
     menuBtn?.addEventListener('click', () => navLinksMenu.classList.toggle('active'));
@@ -498,7 +513,7 @@
         expDiv.style.display = this.value === 'نعم' ? 'block' : 'none';
     }));
 
-    // Dynamic courses (responsive)
+    // Dynamic courses
     const coursesContainer = document.getElementById('coursesContainer');
     document.getElementById('addCourseBtn')?.addEventListener('click', () => {
         const newDiv = document.createElement('div');
@@ -509,35 +524,30 @@
     });
     document.querySelectorAll('.remove-course').forEach(btn => btn.addEventListener('click', function() { this.closest('.course-item')?.remove(); }));
 
-    // Counter animation for achievements
+    // Counters animation
     const counters = document.querySelectorAll('.counter');
-    const speed = 200;
-    const animateCounters = () => {
-        counters.forEach(counter => {
-            const updateCount = () => {
-                const target = parseInt(counter.getAttribute('data-target'));
-                const current = parseInt(counter.innerText);
-                const increment = Math.ceil(target / 30);
-                if (current < target) {
-                    counter.innerText = current + increment;
-                    setTimeout(updateCount, 30);
-                } else {
-                    counter.innerText = target;
-                }
-            };
-            updateCount();
-        });
-    };
-    // Trigger counters when visible
-    const observerOptions = { threshold: 0.5 };
+    let animated = false;
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounters();
-                observer.disconnect();
-            }
-        });
-    }, observerOptions);
+        if (entries[0].isIntersecting && !animated) {
+            animated = true;
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                let current = 0;
+                const increment = Math.ceil(target / 30);
+                const update = () => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.innerText = target;
+                        return;
+                    }
+                    counter.innerText = current;
+                    setTimeout(update, 30);
+                };
+                update();
+            });
+            observer.disconnect();
+        }
+    }, { threshold: 0.4 });
     const achievementsSection = document.querySelector('#achievements');
     if (achievementsSection) observer.observe(achievementsSection);
 
@@ -547,7 +557,7 @@
         if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'U')) e.preventDefault();
     });
 
-    // Form submission
+    // Submit form
     const form = document.getElementById('jobApplicationForm');
     const feedbackDiv = document.getElementById('formFeedback');
 
@@ -558,19 +568,16 @@
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> جاري الإرسال...';
         feedbackDiv.innerHTML = '';
 
-        // Collect courses
+        // جمع الدورات
         const courseNames = document.querySelectorAll('input[name="courseName[]"]');
         const courseProviders = document.querySelectorAll('input[name="courseProvider[]"]');
         const courseDurations = document.querySelectorAll('input[name="courseDuration[]"]');
         const courses = [];
         for (let i = 0; i < courseNames.length; i++) {
-            courses.push({
-                name: courseNames[i]?.value,
-                provider: courseProviders[i]?.value,
-                duration: courseDurations[i]?.value
-            });
+            courses.push({ name: courseNames[i]?.value, provider: courseProviders[i]?.value, duration: courseDurations[i]?.value });
         }
 
+        // تحويل الملفات إلى base64
         const toBase64 = (file) => new Promise((resolve) => {
             if (!file) return resolve(null);
             const reader = new FileReader();
@@ -599,11 +606,11 @@
             expType: formDataRaw.get('expType'),
             softwareSkills: formDataRaw.get('softwareSkills'),
             techSkills: formDataRaw.get('techSkills'),
-            courses: courses,
+            courses,
             cvFileName: cvFile?.name || '',
-            cvBase64: cvBase64,
+            cvBase64,
             certFileName: certFile?.name || '',
-            certBase64: certBase64,
+            certBase64,
             motivation: formDataRaw.get('motivation'),
             fieldWork: formDataRaw.get('fieldWork'),
             applicationId: Math.floor(Math.random() * 1000000)
@@ -632,7 +639,7 @@
             }
         } catch (err) {
             console.error(err);
-            feedbackDiv.innerHTML = `<div style="color:red; background:#fee2e2; padding:1rem; border-radius:20px;">❌ خطأ في الاتصال بالخادم. تأكد من أن الموقع يعمل عبر Netlify مع وظيفة الخادم.</div>`;
+            feedbackDiv.innerHTML = `<div style="color:red; background:#fee2e2; padding:1rem; border-radius:20px;">❌ خطأ في الاتصال بالخادم. تأكد من رفع الموقع على Netlify مع الدوال.</div>`;
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<i class="fab fa-telegram"></i> إرسال الطلب';
